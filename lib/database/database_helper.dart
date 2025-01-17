@@ -41,13 +41,13 @@ class DatabaseHelper {
 
   Future<void> _onUpgrade(Database db, int oldVersion, int newVersion) async {}
 
-  //  todos os pedidos
+
   Future<List<Map<String, dynamic>>> getPedidos() async {
     final db = await database;
     return await db.query('pedidos');
   }
 
-  // obter o último pedido
+
   Future<Map<String, dynamic>?> obterUltimoPedido() async {
     final db = await database;
     final resultado = await db.query(
@@ -59,7 +59,7 @@ class DatabaseHelper {
     return resultado.isNotEmpty ? resultado.first : null;
   }
 
-  // Método para inserir um novo pedido
+  
   Future<int> inserirPedido(int quantidade, String status) async {
     final db = await database;
     final dataAtual = DateTime.now().toIso8601String(); // Data atual
@@ -73,7 +73,7 @@ class DatabaseHelper {
     );
   }
 
-  // verificar se existe um último pedido
+ 
   Future<int> obterUltimoPedidoId() async {
     final db = await database;
     final resultado = await db.query(
@@ -83,12 +83,12 @@ class DatabaseHelper {
     );
 
     if (resultado.isNotEmpty) {
-      return resultado.first['id'] as int; // Retorna o ID do último pedido
+      return resultado.first['id'] as int; 
     }
-    return 0; // Caso não haja pedidos, retorna 0
+    return 0; 
   }
 
-  // verificar se é possível solicitar novamente (20 dias de espera)
+  
   Future<bool> podeSolicitarNovamente() async {
     final ultimoPedido = await obterUltimoPedido();
     if (ultimoPedido != null) {
@@ -98,8 +98,8 @@ class DatabaseHelper {
       final diasDeDiferenca =
           dataAtual.difference(dataUltimaSolicitacao).inDays;
 
-      return diasDeDiferenca >= 20; // Verifica se passaram 20 dias
+      return diasDeDiferenca >= 20; 
     }
-    return true; // Se não houver pedido anterior, pode solicitar
+    return true; 
   }
 }
